@@ -7,57 +7,40 @@
 
 import SwiftUI
 
-enum Tab {
+enum Tab: String, CaseIterable {
     case home
     case menu
 }
 
 struct TabView: View {
     
-    @State var tab: Tab = .home
+    @Binding var selectedTab: Tab
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            switch tab {
-            case .home:
-                HomeView()
-            case .menu:
-                MenuView()
-            }
-        }
-        .overlay(alignment: .bottom) {
-            ZStack {
-                Rectangle()
-                    .fill(Color.mainPink)
-                    .frame(height: 100)
-                    .cornerRadius(40, corners: [.topLeft, .topRight])
+        HStack {
+            ForEach(Tab.allCases, id: \.rawValue) { item in
+                Spacer()
                 
-                HStack(spacing: 70) {
-                    VStack {
-                        Image(.card)
-                        
-                        Text("Home")
-                            .foregroundStyle(Color.white)
-                    }
-                    .onTapGesture {
-                        tab = .home
-                    }
+                VStack {
+                    Image(item.rawValue)
+                        .font(.system(size: 25))
+                        .frame(height: 25)
                     
-                    VStack {
-                        Image(.menu)
-                        
-                        Text("Menu")
-                            .foregroundStyle(Color.white)
-                    }
-                    .onTapGesture {
-                        tab = .menu
-                    }
+                    Text(item.rawValue)
                 }
+                .foregroundStyle(selectedTab != item ? .gray : .white)
+                .onTapGesture {
+                    selectedTab = item
+                }
+                Spacer()
             }
         }
+        .frame(width: nil, height: 73)
+        .background(Color.mainPink)
+        .cornerRadius(40, corners: [.topLeft, .topRight])
     }
 }
 
 #Preview {
-    TabView()
+    TabView(selectedTab: .constant(.home))
 }

@@ -148,7 +148,7 @@ struct MenuView: View {
             ZStack(alignment: .bottom) {
                 Rectangle()
                     .fill(Color.black.opacity(0.5))
-                    .ignoresSafeArea()
+//                    .ignoresSafeArea()
                     .opacity(showDetail ? 1 : 0)
                 
                 ZStack {

@@ -8,8 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var selectedTab: Tab = .home
+    
     var body: some View {
-        TabView()
+        ZStack {
+            switch selectedTab {
+            case .home:
+                HomeView()
+            case .menu:
+                MenuView()
+            }
+            
+            VStack {
+                Spacer()
+                
+                TabView(selectedTab: $selectedTab)
+            }
+            .ignoresSafeArea()
+        }
     }
 }
 
